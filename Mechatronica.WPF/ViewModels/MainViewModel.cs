@@ -13,7 +13,7 @@ namespace Mechatronica.WPF.ViewModels
 {
 
 
-    public class MainViewModel
+    public class MainViewModel : IDisposable
     {
         private readonly BaseModel<CarModel> _car;
         public ObservableCollection<CarModel> Cars => _car.Items ?? new ObservableCollection<CarModel>();
@@ -23,6 +23,7 @@ namespace Mechatronica.WPF.ViewModels
 
         private ConcurrentDictionary<string,string> _matchDictionary = new ConcurrentDictionary<string,string>();
         private ObservableCollection<MainModel> _mainModels;
+        private bool disposedValue;
 
         public ObservableCollection<MainModel> MainModels => _mainModels;  
         public ICommand StartCommand { get; set; }
@@ -35,17 +36,17 @@ namespace Mechatronica.WPF.ViewModels
         {
             StartCommand = new RelayCommand((obj) =>
             {
-               StartNotify(obj);
+               InvokeNotify(OnStartLoading,obj);
             }, CanExecute);
             StopCommand = new RelayCommand((obj) =>
             {
-               StopNotify(obj);
+               InvokeNotify(OnStopLoading, obj);
             }, CanExecute);
             _mainModels = new ObservableCollection<MainModel>();
             _car = BaseModel<CarModel>.Create(MockData.Cars, 2, this);
             _person = BaseModel<PersonModel>.Create(MockData.Persons, 3, this);
             CustomTimer.Start();
-            StartNotify();
+            InvokeNotify(OnStartLoading);
         }
         bool CanExecute(object parameter)
         {
@@ -68,46 +69,20 @@ namespace Mechatronica.WPF.ViewModels
                 _mainModels.Add(mainModel);
             }
         }
-        void StartNotify(object? obj = null)
-        {
-            if(obj == null)
-            {
-                OnStartLoading?.Invoke();
-            }
-            else
-            {
-                var multiDelegate = OnStartLoading?.GetInvocationList();
 
-                if (multiDelegate != null)
-                {
-                    foreach (Delegate d in multiDelegate)
-                    {
-                        var target = d.Target?.GetType().GetGenericArguments()[0];
-                        if (target != null && target.Name == obj.ToString())
-                        {
-                            d.DynamicInvoke();
-                        }
-
-                    }
-
-                }
-            }
-
-        }
-
-        void StopNotify(object obj)
+        static void InvokeNotify(Action? action, object? obj = null)
         {
             if (obj == null)
             {
-                OnStopLoading?.Invoke();
+                action?.Invoke();
             }
             else
             {
-                var multiDelegate = OnStopLoading?.GetInvocationList();
-             
+                var multiDelegate = action?.GetInvocationList();
+
                 if (multiDelegate != null)
                 {
-                  
+
                     foreach (Delegate d in multiDelegate)
                     {
                         var target = d.Target?.GetType().GetGenericArguments()[0];
@@ -121,7 +96,26 @@ namespace Mechatronica.WPF.ViewModels
 
                 }
             }
+        }
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    OnStartLoading = null;
+                    OnStopLoading = null;
+                }
 
+                disposedValue = true;
+            }
+        }
+
+
+        public void Dispose()
+        {
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
         }
     }
 
