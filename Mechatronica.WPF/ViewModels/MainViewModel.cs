@@ -1,4 +1,5 @@
-﻿using Mechatronica.WPF.Commands;
+﻿using Mechatronica.DB.Interfaces;
+using Mechatronica.WPF.Commands;
 using Mechatronica.WPF.Models;
 using Serilog;
 using System;
@@ -19,6 +20,8 @@ namespace Mechatronica.WPF.ViewModels
         public ObservableCollection<CarModel> Cars => _car.Items ?? new ObservableCollection<CarModel>();
 
         private readonly BaseModel<PersonModel> _person;
+        private readonly IRepository _repository;
+
         public ObservableCollection<PersonModel> Persons => _person.Items ?? new ObservableCollection<PersonModel>();
 
         private ConcurrentDictionary<string,string> _matchDictionary = new ConcurrentDictionary<string,string>();
@@ -33,8 +36,9 @@ namespace Mechatronica.WPF.ViewModels
         public event Action? OnStartLoading;
         public event Action? OnStopLoading;
 
-        public MainViewModel()
+        public MainViewModel(IRepository repository)
         {
+            _repository = repository;
             StartCommand = new RelayCommand((obj) =>
             {
                InvokeNotify(OnStartLoading,obj);
@@ -44,10 +48,11 @@ namespace Mechatronica.WPF.ViewModels
                InvokeNotify(OnStopLoading, obj);
             }, CanExecute);
             _mainModels = new ObservableCollection<MainModel>();
-            _car = BaseModel<CarModel>.Create(MockData.Cars, 2, this);
-            _person = BaseModel<PersonModel>.Create(MockData.Persons, 3, this);
+            _car = BaseModel<CarModel>.Create(MockData.Cars, 2, this, _repository);
+            _person = BaseModel<PersonModel>.Create(MockData.Persons, 3, this, _repository);
             CustomTimer.Start();
             InvokeNotify(OnStartLoading);
+       
         }
         bool CanExecute(object parameter)
         {

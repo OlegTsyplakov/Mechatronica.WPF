@@ -15,8 +15,8 @@ using System;
 using Mechatronica.WPF.Views;
 using Mechatronica.WPF.Interfaces;
 using Mechatronica.WPF.ViewModels;
-
-
+using Mechatronica.DB.Interfaces;
+using Mechatronica.DB.Repository;
 
 namespace Mechatronica.WPF
 {
@@ -50,8 +50,8 @@ namespace Mechatronica.WPF
                     services.Configure<AppSettings>(loggingSettings);
                     services.Configure<DataBaseSettings>(connectionStriing);
                     services.AddSingleton<App>();
+                    services.AddSingleton<IRepository, Repository>();
 
-              
                     services.AddSingleton<MainWindow>();
                     services.AddDbContext<AppDbContext>(options =>
                             options.UseSqlServer(connectionStriing.Value));
@@ -63,11 +63,12 @@ namespace Mechatronica.WPF
         protected override void OnStartup(StartupEventArgs e)
         {
             AppHost.Start();
-    
-           
+
+            var appDbContext = AppHost.Services.GetRequiredService<AppDbContext>();
+            IRepository repository = new Repository(appDbContext);
             var startForm = AppHost.Services.GetRequiredService<MainWindow>();
         
-            startForm.DataContext = new MainViewModel();
+            startForm.DataContext = new MainViewModel(repository);
      
 
             startForm.Show();

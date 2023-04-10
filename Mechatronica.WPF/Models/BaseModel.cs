@@ -1,4 +1,5 @@
-﻿using Mechatronica.WPF.Interfaces;
+﻿using Mechatronica.DB.Interfaces;
+using Mechatronica.WPF.Interfaces;
 using Mechatronica.WPF.ViewModels;
 using Serilog;
 using System;
@@ -23,18 +24,21 @@ namespace Mechatronica.WPF.Models
         private readonly ConcurrentQueue<string> _initialData;
         private readonly int _interval;
         private readonly MainViewModel _mainViewModel;
-        private BaseModel(ConcurrentQueue<string> mockData, int interval, MainViewModel mainViewModel)
+        private readonly IRepository _repository;
+
+        private BaseModel(ConcurrentQueue<string> mockData, int interval, MainViewModel mainViewModel, IRepository repository)
         {
             _initialData = mockData;
             _interval = interval;
             _syncContext = SynchronizationContext.Current;
            _mainViewModel = mainViewModel;
+            _repository = repository;
             Init();
 
         }
-       public static BaseModel<T> Create(ConcurrentQueue<string> mockData, int interval, MainViewModel mainViewModel)
+       public static BaseModel<T> Create(ConcurrentQueue<string> mockData, int interval, MainViewModel mainViewModel, IRepository repository)
         {
-            return new BaseModel<T>(mockData, interval, mainViewModel);    
+            return new BaseModel<T>(mockData, interval, mainViewModel, repository);    
         }
 
         void AddItem(T item)

@@ -9,5 +9,7 @@ namespace Mechatronica.DB.Interfaces
         IQueryable<CarDbModel> GetAllCars();
         void AddPerson(PersonDbModel person);
         IQueryable<PersonDbModel> GetAllPersons();
+
+        void Dummy();
     }
 }

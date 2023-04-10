@@ -2,6 +2,7 @@
 using Mechatronica.DB.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.ConstrainedExecution;
 using System.Text;
@@ -52,6 +53,12 @@ namespace Mechatronica.DB.Repository
         public IQueryable<PersonDbModel> GetAllPersons()
         {
             return _appDbContext.Persons;
+        }
+
+        public void Dummy()
+        {
+            Debug.WriteLine("Dymmy");
+            Console.WriteLine("Dymmy");
         }
     }
 }
