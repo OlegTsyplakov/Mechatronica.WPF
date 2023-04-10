@@ -12,10 +12,10 @@ namespace Mechatronica.DB.Models
         [Column("ID")]
         public int Id { get; set; }
 
-        [Column("name")]
+        [Column("Person")]
         public string? Name { get; set; }
 
-        [Column("date")]
+        [Column("Date")]
         public string? Date { get; set; }
     }
 }

@@ -24,6 +24,7 @@ namespace Mechatronica.DB.Repository
             try
             {
                 _appDbContext.Cars.Add(car);
+                _appDbContext.SaveChanges();
             }
             catch (Exception)
             {
@@ -37,6 +38,7 @@ namespace Mechatronica.DB.Repository
             try
             {
                 _appDbContext.Persons.Add(person);
+                _appDbContext.SaveChanges();
             }
             catch (Exception)
             {

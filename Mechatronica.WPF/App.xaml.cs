@@ -17,6 +17,8 @@ using Mechatronica.WPF.Interfaces;
 using Mechatronica.WPF.ViewModels;
 using Mechatronica.DB.Interfaces;
 using Mechatronica.DB.Repository;
+using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace Mechatronica.WPF
 {
@@ -65,6 +67,8 @@ namespace Mechatronica.WPF
             AppHost.Start();
 
             var appDbContext = AppHost.Services.GetRequiredService<AppDbContext>();
+            appDbContext.Database.EnsureCreated();
+            appDbContext.Database.Migrate();
             IRepository repository = new Repository(appDbContext);
             var startForm = AppHost.Services.GetRequiredService<MainWindow>();
         

@@ -8,27 +8,14 @@ namespace Mechatronica.DB
     {
         public DbSet<CarDbModel> Cars { get; set; }
         public DbSet<PersonDbModel> Persons { get; set; }
+        public DbSet<MainDbModel> Main { get; set; }
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
    
 
 
-
-            try
-            {
-                Database.EnsureCreated();
-            }
-            catch (Exception ex)
-            {
-
-            }
-
-
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer("connectionString");
-        }
+
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Mechatronica.DB.Interfaces;
+using Mechatronica.DB.Models;
 using Mechatronica.WPF.Commands;
 using Mechatronica.WPF.Models;
 using Serilog;
@@ -74,8 +75,10 @@ namespace Mechatronica.WPF.ViewModels
                     Car = _matchDictionary[item.Key]
                 };
                 _mainModels.Add(mainModel);
-                _matchDictionary.Clear();
-            }
+               
+      
+            _matchDictionary.Clear();
+        }
         }
 
         static void InvokeNotify(Action? action, object? obj = null)
