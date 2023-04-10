@@ -1,4 +1,6 @@
-﻿using Mechatronica.DB.Interfaces;
+﻿using Accessibility;
+using Mechatronica.DB.Interfaces;
+using Mechatronica.WPF.Helpers;
 using Mechatronica.WPF.Interfaces;
 using Mechatronica.WPF.ViewModels;
 using Serilog;
@@ -33,7 +35,9 @@ namespace Mechatronica.WPF.Models
             _syncContext = SynchronizationContext.Current;
            _mainViewModel = mainViewModel;
             _repository = repository;
-            Init();
+            OnUpdateList += AddItem;
+            _mainViewModel.OnStartLoading += StartLoading;
+            _mainViewModel.OnStopLoading += StopLoading;
 
         }
        public static BaseModel<T> Create(ConcurrentQueue<string> mockData, int interval, MainViewModel mainViewModel, IRepository repository)
@@ -48,6 +52,7 @@ namespace Mechatronica.WPF.Models
            
             _syncContext?.Post(o =>
             {
+                MapToModel(item);
                 _observableCollection.Add(item);
                 _mainViewModel.AddToMatchDictionary(GetKeyValuePair(item));
             }, null);
@@ -58,7 +63,7 @@ namespace Mechatronica.WPF.Models
             return new KeyValuePair<string, string>(item.Date,item.Name);
         }
 
-        public async void TimerElapsed(object sender, ElapsedEventArgs args)
+        async void TimerElapsed(object sender, ElapsedEventArgs args)
         {
             if (_count % _interval == 0)
             {
@@ -67,13 +72,30 @@ namespace Mechatronica.WPF.Models
             _count++;
         }
 
-        void Init()
+        void SaveToDataBase(T item)
         {
-            OnUpdateList += AddItem;
-            _mainViewModel.OnStartLoading += StartLoading;
-            _mainViewModel.OnStopLoading+=StopLoading;
-        }
 
+            
+
+            Log.Logger.Information("Type: {0}", item.GetType().Name);
+        }
+        void MapToModel(T item)
+        {
+            var type = item.GetType().Name;
+            switch (type)
+            {
+                case nameof(CarModel):
+                    var car = DbHelper.MapToCarDbModel(item as CarModel);
+                    _repository.AddCar(car);
+                    return;
+                case nameof(PersonModel):
+                    var person = DbHelper.MapToPersonDbModel(item as PersonModel);
+                    _repository.AddPerson(person);
+                    return;
+                default:
+                    break;
+            }
+        }
 
         void StartLoading()
         {
