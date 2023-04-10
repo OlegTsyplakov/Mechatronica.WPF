@@ -1,12 +1,13 @@
 ﻿
+using System;
 using System.Timers;
 
 namespace Mechatronica.WPF.Models
 {
-    public class CustomTimer
+    public class CustomTimer : IDisposable
     {
        private static Timer _timer;
-
+        private bool disposedValue;
 
         static CustomTimer()
         {
@@ -26,6 +27,25 @@ namespace Mechatronica.WPF.Models
         public static void UnSubscribe(ElapsedEventHandler Elapsed)
         {
             _timer.Elapsed -= Elapsed;
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    _timer.Dispose();
+                }
+
+                disposedValue = true;
+            }
+        }
+
+         public void Dispose()
+        {
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
         }
     }
 }

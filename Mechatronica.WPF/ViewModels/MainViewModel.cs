@@ -22,6 +22,7 @@ namespace Mechatronica.WPF.ViewModels
         public ObservableCollection<PersonModel> Persons => _person.Items ?? new ObservableCollection<PersonModel>();
 
         private ConcurrentDictionary<string,string> _matchDictionary = new ConcurrentDictionary<string,string>();
+
         private ObservableCollection<MainModel> _mainModels;
         private bool disposedValue;
 
@@ -54,6 +55,7 @@ namespace Mechatronica.WPF.ViewModels
         }
         public void AddToMatchDictionary(KeyValuePair<string, string> item)
         {
+
             if (_matchDictionary.TryAdd(item.Key,item.Value))
             {
                 _matchDictionary.AddOrUpdate(item.Key, item.Value, (key, oldValue) => item.Value);
@@ -67,6 +69,7 @@ namespace Mechatronica.WPF.ViewModels
                     Car = _matchDictionary[item.Key]
                 };
                 _mainModels.Add(mainModel);
+                _matchDictionary.Clear();
             }
         }
 
@@ -103,6 +106,7 @@ namespace Mechatronica.WPF.ViewModels
             {
                 if (disposing)
                 {
+               
                     OnStartLoading = null;
                     OnStopLoading = null;
                 }
@@ -114,6 +118,7 @@ namespace Mechatronica.WPF.ViewModels
 
         public void Dispose()
         {
+
             Dispose(disposing: true);
             GC.SuppressFinalize(this);
         }
