@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.Threading.Tasks;
 using System.Timers;
 
 namespace Mechatronica.WPF.Models
@@ -28,7 +29,14 @@ namespace Mechatronica.WPF.Models
         {
             _timer.Elapsed -= Elapsed;
         }
+        public static async Task Tik(Action action)
+        {
+            await Task.Run(() => {
+                action.Invoke();
+            });
 
+
+        }
         protected virtual void Dispose(bool disposing)
         {
             if (!disposedValue)

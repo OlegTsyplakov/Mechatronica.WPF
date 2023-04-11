@@ -72,7 +72,7 @@
                     <TabControl TabStripPlacement="Left" >
                         <TabItem Header="Match" Height="30" Margin="3" Padding="5">
                             <TabItem.Content>
-                                <ListView  ItemsSource="{Binding MainModels}" Name="inbox" BorderThickness="2">
+                                <ListView  ItemsSource="{Binding MainModels}" Name="MainModels" BorderThickness="2">
                                     <ListView.View >
                                         <GridView>
                                             <GridViewColumn Header="Date" Width="200" DisplayMemberBinding="{Binding Date}" />

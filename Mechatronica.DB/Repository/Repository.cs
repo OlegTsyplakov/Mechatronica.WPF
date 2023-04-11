@@ -62,5 +62,24 @@ namespace Mechatronica.DB.Repository
             Debug.WriteLine("Dymmy");
             Console.WriteLine("Dymmy");
         }
+
+        public void AddMain(MainDbModel main)
+        {
+            try
+            {
+                _appDbContext.Main.Add(main);
+                _appDbContext.SaveChanges();
+            }
+            catch (Exception)
+            {
+
+
+            }
+        }
+
+        public IQueryable<MainDbModel> GetAll()
+        {
+            return _appDbContext.Main;
+        }
     }
 }

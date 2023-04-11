@@ -32,5 +32,16 @@ namespace Mechatronica.WPF.Helpers
             };
             return personDbModel;
         }
+        public static MainDbModel MapToMainDbModel(MainModel mainModel)
+        {
+            MainDbModel mainDbModel = new MainDbModel()
+            {
+                Car = mainModel.Car,
+                Person = mainModel.Person,
+                Date = mainModel.Date
+
+            };
+            return mainDbModel;
+        }
     }
 }

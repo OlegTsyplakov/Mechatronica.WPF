@@ -10,6 +10,8 @@ namespace Mechatronica.DB.Interfaces
         void AddPerson(PersonDbModel person);
         IQueryable<PersonDbModel> GetAllPersons();
 
+        void AddMain(MainDbModel main);
+        IQueryable<MainDbModel> GetAll();
         void Dummy();
     }
 }

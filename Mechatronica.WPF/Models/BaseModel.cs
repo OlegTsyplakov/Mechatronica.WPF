@@ -58,9 +58,9 @@ namespace Mechatronica.WPF.Models
             }, null);
         }
 
-        KeyValuePair<string, string> GetKeyValuePair(T item)
+        KeyValuePair<string, IModel> GetKeyValuePair(T item)
         {
-            return new KeyValuePair<string, string>(item.Date,item.Name);
+            return new KeyValuePair<string, IModel>(item.Date,item);
         }
 
         async void TimerElapsed(object sender, ElapsedEventArgs args)
@@ -72,13 +72,6 @@ namespace Mechatronica.WPF.Models
             _count++;
         }
 
-        void SaveToDataBase(T item)
-        {
-
-            
-
-            Log.Logger.Information("Type: {0}", item.GetType().Name);
-        }
         void MapToModel(T item)
         {
             var type = item.GetType().Name;
