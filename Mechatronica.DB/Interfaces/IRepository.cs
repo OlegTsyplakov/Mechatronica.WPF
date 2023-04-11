@@ -1,5 +1,5 @@
 ﻿using Mechatronica.DB.Models;
-
+using System.Collections.ObjectModel;
 
 namespace Mechatronica.DB.Interfaces
 {
@@ -14,6 +14,7 @@ namespace Mechatronica.DB.Interfaces
 
         void UpdateMain(MainDbModel main);
         IQueryable<MainDbModel> GetAll();
+        ObservableCollection<MainDbModel> GetObservableCollectionMainDbModel();
         void Dummy();
     }
 }

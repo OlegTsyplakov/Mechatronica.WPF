@@ -2,6 +2,7 @@
 using Mechatronica.DB.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.ConstrainedExecution;
@@ -81,14 +82,17 @@ namespace Mechatronica.DB.Repository
         {
             return _appDbContext.Main;
         }
-
-        public void UpdateMain(MainDbModel main)
+        public ObservableCollection<MainDbModel> GetObservableCollectionMainDbModel()
         {
-            var mainDbModel = GetAll().First(x=>x.Date==main.Date);
+            return _appDbContext.Main.Local.ToObservableCollection();
+        }
+        public void UpdateMain(MainDbModel model)
+        {
+            var mainDbModel = GetAll().First(x=>x.Date==model.Date);
             if (mainDbModel != null)
             {
-                mainDbModel.Person = main.Person;
-                mainDbModel.Car = main.Car;
+                mainDbModel.Person = model.Person;
+                mainDbModel.Car = model.Car;
                 _appDbContext.SaveChanges();
             }
             

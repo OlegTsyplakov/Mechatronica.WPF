@@ -4,6 +4,7 @@ using Mechatronica.WPF.Commands;
 using Mechatronica.WPF.Helpers;
 using Mechatronica.WPF.Interfaces;
 using Mechatronica.WPF.Models;
+using Microsoft.EntityFrameworkCore;
 using Serilog;
 using System;
 using System.Collections.Concurrent;
@@ -11,6 +12,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows.Input;
@@ -23,18 +25,17 @@ namespace Mechatronica.WPF.ViewModels
     {
 
         private readonly BaseModel<CarModel> _car;
-        public ObservableCollection<CarModel> Cars => _car.Items ?? new ObservableCollection<CarModel>();
+        public ObservableCollection<CarModel> Cars => _car.Items ?? new ();
 
         private readonly BaseModel<PersonModel> _person;
         private readonly IRepository _repository;
 
-        public ObservableCollection<MainModel> _dbData = new ObservableCollection<MainModel>();
-        public ObservableCollection<MainModel> DbData => _dbData;
-        public ObservableCollection<PersonModel> Persons => _person.Items ?? new ObservableCollection<PersonModel>();
+        public ObservableCollection<MainDbModel> DbData => _repository.GetObservableCollectionMainDbModel();
+        public ObservableCollection<PersonModel> Persons => _person.Items ?? new();
 
-        private ConcurrentDictionary<string, IModel> _matchDictionary = new ConcurrentDictionary<string, IModel>();
+        private readonly ConcurrentDictionary<string, IModel> _matchDictionary = new();
 
-        private readonly ObservableCollection<MainModel> _mainModels = new ObservableCollection<MainModel>();
+        private readonly ObservableCollection<MainModel> _mainModels = new();
         private bool disposedValue;
 
         public ObservableCollection<MainModel> MainModels =>_mainModels;
@@ -44,6 +45,7 @@ namespace Mechatronica.WPF.ViewModels
 
         public event Action? OnStartLoading;
         public event Action? OnStopLoading;
+        public event Action? OnDbDataUpdate;
 
 
 
@@ -60,6 +62,7 @@ namespace Mechatronica.WPF.ViewModels
             }, CanExecute);
             _car = BaseModel<CarModel>.Create(MockData.Cars, 2, this, _repository);
             _person = BaseModel<PersonModel>.Create(MockData.Persons, 3, this, _repository);
+            OnDbDataUpdate += DbDataUpdate;
             CustomTimer.Start();
             InvokeNotify(OnStartLoading);
        
@@ -87,11 +90,15 @@ namespace Mechatronica.WPF.ViewModels
                 _mainModels.Add(mainModel);
                 var mainDbModel = DbHelper.MapToMainDbModel(mainModel);
                 _repository.UpdateMain(mainDbModel);
-                _dbData.Add(mainModel);
+                InvokeNotify(OnDbDataUpdate);
                 _matchDictionary.Clear();
             }
         }
-
+        void DbDataUpdate()
+        {
+            Log.Logger.Information("Db refreshed");
+   
+        }
         private MainModel MapToMainModel(KeyValuePair<string, IModel> item, string previousName = "")
         {
             MainModel mainModel = new MainModel()
@@ -149,6 +156,7 @@ namespace Mechatronica.WPF.ViewModels
                
                     OnStartLoading = null;
                     OnStopLoading = null;
+                    OnDbDataUpdate = null;
                 }
 
                 disposedValue = true;

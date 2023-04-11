@@ -157,9 +157,9 @@
                             <GridView>
 
                               
-                                <GridViewColumn Header="Date" Width="Auto" DisplayMemberBinding="{Binding Date}" />
-                                <GridViewColumn  Header="Car" Width="250px" DisplayMemberBinding="{Binding Car}" />
-                                <GridViewColumn  Header="Person" Width="250px" DisplayMemberBinding="{Binding Person}" />
+                                <GridViewColumn Header="Date" Width="200px" DisplayMemberBinding="{Binding Date}" />
+                                <GridViewColumn  Header="Car" Width="200px" DisplayMemberBinding="{Binding Car}" />
+                                <GridViewColumn  Header="Person" Width="200px" DisplayMemberBinding="{Binding Person}" />
 
                             </GridView>
                         </ListView.View>
