@@ -81,5 +81,17 @@ namespace Mechatronica.DB.Repository
         {
             return _appDbContext.Main;
         }
+
+        public void UpdateMain(MainDbModel main)
+        {
+            var mainDbModel = GetAll().First(x=>x.Date==main.Date);
+            if (mainDbModel != null)
+            {
+                mainDbModel.Person = main.Person;
+                mainDbModel.Car = main.Car;
+                _appDbContext.SaveChanges();
+            }
+            
+        }
     }
 }

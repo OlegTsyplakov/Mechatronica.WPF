@@ -28,7 +28,8 @@ namespace Mechatronica.WPF.ViewModels
         private readonly BaseModel<PersonModel> _person;
         private readonly IRepository _repository;
 
-        public ObservableCollection<MainModel> DbData = new ObservableCollection<MainModel>();
+        public ObservableCollection<MainModel> _dbData = new ObservableCollection<MainModel>();
+        public ObservableCollection<MainModel> DbData => _dbData;
         public ObservableCollection<PersonModel> Persons => _person.Items ?? new ObservableCollection<PersonModel>();
 
         private ConcurrentDictionary<string, IModel> _matchDictionary = new ConcurrentDictionary<string, IModel>();
@@ -85,7 +86,8 @@ namespace Mechatronica.WPF.ViewModels
 
                 _mainModels.Add(mainModel);
                 var mainDbModel = DbHelper.MapToMainDbModel(mainModel);
-                _repository.AddMain(mainDbModel);
+                _repository.UpdateMain(mainDbModel);
+                _dbData.Add(mainModel);
                 _matchDictionary.Clear();
             }
         }

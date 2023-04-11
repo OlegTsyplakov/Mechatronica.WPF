@@ -11,6 +11,8 @@ namespace Mechatronica.DB.Interfaces
         IQueryable<PersonDbModel> GetAllPersons();
 
         void AddMain(MainDbModel main);
+
+        void UpdateMain(MainDbModel main);
         IQueryable<MainDbModel> GetAll();
         void Dummy();
     }
