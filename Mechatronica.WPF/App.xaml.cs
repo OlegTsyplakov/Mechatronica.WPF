@@ -55,6 +55,7 @@ namespace Mechatronica.WPF
                     services.AddSingleton<IRepository, Repository>();
 
                     services.AddSingleton<MainWindow>();
+          
                     services.AddDbContext<AppDbContext>(options =>
                             options.UseSqlServer(connectionStriing.Value));
 

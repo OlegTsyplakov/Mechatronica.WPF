@@ -9,6 +9,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -48,13 +49,12 @@ namespace Mechatronica.WPF.Models
         void AddItem(T item)
         {
             _count = 0;
-            
-           
-            _syncContext?.Post(o =>
+            _syncContext?.Post( o =>
             {
                 MapToModel(item);
+               _mainViewModel.AddToMatchDictionary(GetKeyValuePair(item));
                 _observableCollection.Add(item);
-                _mainViewModel.AddToMatchDictionary(GetKeyValuePair(item));
+              
             }, null);
         }
 
@@ -63,7 +63,7 @@ namespace Mechatronica.WPF.Models
             return new KeyValuePair<string, IModel>(item.Date,item);
         }
 
-        async void TimerElapsed(object sender, ElapsedEventArgs args)
+        async void TimerElapsed(object? sender, ElapsedEventArgs args)
         {
             if (_count % _interval == 0)
             {
@@ -79,7 +79,7 @@ namespace Mechatronica.WPF.Models
             {
                 case nameof(CarModel):
                     var car = DbHelper.MapToCarDbModel(item as CarModel);
-                    _repository.AddCar(car);
+                  _repository.AddCar(car);
                     return;
                 case nameof(PersonModel):
                     var person = DbHelper.MapToPersonDbModel(item as PersonModel);

@@ -13,9 +13,11 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows.Input;
+
 
 namespace Mechatronica.WPF.ViewModels
 {
@@ -23,15 +25,14 @@ namespace Mechatronica.WPF.ViewModels
 
     public class MainViewModel : IDisposable
     {
-
+   
         private readonly BaseModel<CarModel> _car;
-        public ObservableCollection<CarModel> Cars => _car.Items ?? new ();
+        public ObservableCollection<CarModel> Cars => _car.Items;
 
         private readonly BaseModel<PersonModel> _person;
         private readonly IRepository _repository;
-
         public ObservableCollection<MainDbModel> DbData => _repository.GetObservableCollectionMainDbModel();
-        public ObservableCollection<PersonModel> Persons => _person.Items ?? new();
+        public ObservableCollection<PersonModel> Persons => _person.Items;
 
         private readonly ConcurrentDictionary<string, IModel> _matchDictionary = new();
 
@@ -45,9 +46,9 @@ namespace Mechatronica.WPF.ViewModels
 
         public event Action? OnStartLoading;
         public event Action? OnStopLoading;
-        public event Action? OnDbDataUpdate;
+   
 
-
+        private readonly SynchronizationContext? _syncContext;
 
         public MainViewModel(IRepository repository)
         {
@@ -62,12 +63,14 @@ namespace Mechatronica.WPF.ViewModels
             }, CanExecute);
             _car = BaseModel<CarModel>.Create(MockData.Cars, 2, this, _repository);
             _person = BaseModel<PersonModel>.Create(MockData.Persons, 3, this, _repository);
-            OnDbDataUpdate += DbDataUpdate;
+       
             CustomTimer.Start();
             InvokeNotify(OnStartLoading);
-       
-        }
+            CustomTimer.Subscribe(TimerElapsed);
+            _syncContext = SynchronizationContext.Current;
 
+        }
+      
         bool CanExecute(object parameter)
         {
             return true;
@@ -80,7 +83,7 @@ namespace Mechatronica.WPF.ViewModels
                 _matchDictionary.AddOrUpdate(item.Key, item.Value, (key, oldValue) => item.Value);
                 MainModel mainModel = MapToMainModel(item);
                 var mainDbModel = DbHelper.MapToMainDbModel(mainModel);
-                _repository.AddMain(mainDbModel);
+              _repository.AddMain(mainDbModel);
 
             }
             else
@@ -89,17 +92,29 @@ namespace Mechatronica.WPF.ViewModels
 
                 _mainModels.Add(mainModel);
                 var mainDbModel = DbHelper.MapToMainDbModel(mainModel);
-                _repository.UpdateMain(mainDbModel);
-                InvokeNotify(OnDbDataUpdate);
+                 _repository.UpdateMain(mainDbModel);
                 _matchDictionary.Clear();
             }
         }
-        void DbDataUpdate()
+    
+        void TimerElapsed(object? sender, ElapsedEventArgs args)
         {
-            Log.Logger.Information("Db refreshed");
-   
+            _syncContext?.Post(o =>
+            {
+                var DbDataExt = _repository.GetAll().AsEnumerable();
+                var difference = DbDataExt.Count() - DbData.Count;
+                if (difference > 0)
+                {
+                    var t = DbDataExt.TakeLast(difference);
+                    foreach (var item in t)
+                    {
+                        DbData.Add(item);
+                    }
+                }
+ 
+            }, null);
         }
-        private MainModel MapToMainModel(KeyValuePair<string, IModel> item, string previousName = "")
+        MainModel MapToMainModel(KeyValuePair<string, IModel> item, string previousName = "")
         {
             MainModel mainModel = new MainModel()
             {
@@ -153,10 +168,8 @@ namespace Mechatronica.WPF.ViewModels
             {
                 if (disposing)
                 {
-               
                     OnStartLoading = null;
                     OnStopLoading = null;
-                    OnDbDataUpdate = null;
                 }
 
                 disposedValue = true;

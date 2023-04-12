@@ -1,13 +1,7 @@
 ﻿using Mechatronica.DB.Interfaces;
 using Mechatronica.DB.Models;
-using System;
-using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Linq;
-using System.Runtime.ConstrainedExecution;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Mechatronica.DB.Repository
 {
@@ -20,32 +14,16 @@ namespace Mechatronica.DB.Repository
             _appDbContext = appDbContext;
         }
 
-        public void AddCar(CarDbModel car)
+        public async Task AddCarAsync(CarDbModel car)
         {
-            try
-            {
                 _appDbContext.Cars.Add(car);
-                _appDbContext.SaveChanges();
-            }
-            catch (Exception)
-            {
-
-
-            }
+            await _appDbContext.SaveChangesAsync();
         }
 
-        public void AddPerson(PersonDbModel person)
+        public async Task AddPersonAsync(PersonDbModel person)
         {
-            try
-            {
                 _appDbContext.Persons.Add(person);
-                _appDbContext.SaveChanges();
-            }
-            catch (Exception)
-            {
-
-
-            }
+            await _appDbContext.SaveChangesAsync();
         }
 
         public IQueryable<CarDbModel> GetAllCars()
@@ -58,24 +36,10 @@ namespace Mechatronica.DB.Repository
             return _appDbContext.Persons;
         }
 
-        public void Dummy()
+        public async Task AddMainAsync(MainDbModel main)
         {
-            Debug.WriteLine("Dymmy");
-            Console.WriteLine("Dymmy");
-        }
-
-        public void AddMain(MainDbModel main)
-        {
-            try
-            {
                 _appDbContext.Main.Add(main);
-                _appDbContext.SaveChanges();
-            }
-            catch (Exception)
-            {
-
-
-            }
+            await _appDbContext.SaveChangesAsync();
         }
 
         public IQueryable<MainDbModel> GetAll()
@@ -86,16 +50,46 @@ namespace Mechatronica.DB.Repository
         {
             return _appDbContext.Main.Local.ToObservableCollection();
         }
+        public async Task UpdateMainAsync(MainDbModel model)
+        {
+            var mainDbModel = GetAll().First(x => x.Date == model.Date);
+            if (mainDbModel != null)
+            {
+                mainDbModel.Person = model.Person;
+                mainDbModel.Car = model.Car;
+               await _appDbContext.SaveChangesAsync();
+            }
+            
+        }
+
+        public void AddCar(CarDbModel car)
+        {
+            _appDbContext.Cars.Add(car);
+             _appDbContext.SaveChanges();
+        }
+
+        public void AddPerson(PersonDbModel person)
+        {
+            _appDbContext.Persons.Add(person);
+            _appDbContext.SaveChanges();
+        }
+        public void AddMain(MainDbModel main)
+        {
+            _appDbContext.Main.Add(main);
+            _appDbContext.SaveChanges();
+        }
+
         public void UpdateMain(MainDbModel model)
         {
-            var mainDbModel = GetAll().First(x=>x.Date==model.Date);
+            var mainDbModel = GetAll().First(x => x.Date == model.Date);
             if (mainDbModel != null)
             {
                 mainDbModel.Person = model.Person;
                 mainDbModel.Car = model.Car;
                 _appDbContext.SaveChanges();
             }
-            
         }
+
+    
     }
 }
