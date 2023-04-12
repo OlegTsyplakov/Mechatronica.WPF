@@ -17,8 +17,7 @@ using Mechatronica.WPF.Interfaces;
 using Mechatronica.WPF.ViewModels;
 using Mechatronica.DB.Interfaces;
 using Mechatronica.DB.Repository;
-using Microsoft.EntityFrameworkCore.Storage;
-using Microsoft.EntityFrameworkCore.Infrastructure;
+
 
 namespace Mechatronica.WPF
 {

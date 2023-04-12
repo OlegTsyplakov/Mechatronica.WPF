@@ -1,6 +1,5 @@
 ﻿using Mechatronica.DB.Interfaces;
 using Mechatronica.DB.Models;
-using Microsoft.EntityFrameworkCore;
 using System.Collections.ObjectModel;
 
 namespace Mechatronica.DB.Repository

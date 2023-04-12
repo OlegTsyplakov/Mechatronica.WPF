@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.SignalR.Client;
+using System;
 
 namespace Console
 {
@@ -6,8 +7,11 @@ namespace Console
     {
         static void Main(string[] args)
         {
-            System.Console.WriteLine("Hello, World!");
+            System.Console.WriteLine("Слушаем ...");
+            var signalRConnection = new SignalRConnection();
+            signalRConnection.Start();
 
+            System.Console.Read();
         }
     }
 }

@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Mechatronica.DB\Mechatronica.DB.csproj" />
+    <ProjectReference Include="..\SignalRServer\SignalRServer.csproj" />
   </ItemGroup>
 
   <ItemGroup>
