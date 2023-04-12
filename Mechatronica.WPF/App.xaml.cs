@@ -17,7 +17,7 @@ using Mechatronica.WPF.Interfaces;
 using Mechatronica.WPF.ViewModels;
 using Mechatronica.DB.Interfaces;
 using Mechatronica.DB.Repository;
-
+using Mechatronica.WPF.SignalR;
 
 namespace Mechatronica.WPF
 {
@@ -36,6 +36,7 @@ namespace Mechatronica.WPF
 
 
             var loggingSettings = configuration.GetSection("AppSettings:LogFilePath");
+            var signalRconnectionString = configuration.GetSection("AppSettings:SignalRConnectionString");
             var connectionStriing = configuration.GetSection("DataBaseSettings:ConnectionString");
 
             Log.Logger = new LoggerConfiguration()
@@ -52,7 +53,7 @@ namespace Mechatronica.WPF
                     services.Configure<DataBaseSettings>(connectionStriing);
                     services.AddSingleton<App>();
                     services.AddSingleton<IRepository, Repository>();
-
+                    services.AddSingleton<ISignalRConnection>(s=>new SignalRConnection(signalRconnectionString.Value));
                     services.AddSingleton<MainWindow>();
           
                     services.AddDbContext<AppDbContext>(options =>
@@ -65,7 +66,7 @@ namespace Mechatronica.WPF
         protected override void OnStartup(StartupEventArgs e)
         {
             AppHost.Start();
-
+          
             var appDbContext = AppHost.Services.GetRequiredService<AppDbContext>();
             appDbContext.Database.EnsureCreated();
             appDbContext.Database.Migrate();
