@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mechatronica.DB", "Mechatro
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Console", "Console\Console.csproj", "{88C9C31D-0602-4CE4-8F38-0FE9AB1FDF59}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignalRServer", "SignalRServer\SignalRServer.csproj", "{4796C221-3AB4-49A3-BF40-53CE72631DDE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SignalRServer", "SignalRServer\SignalRServer.csproj", "{4796C221-3AB4-49A3-BF40-53CE72631DDE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mechatronica.Tests", "Mechatronica.Tests\Mechatronica.Tests.csproj", "{755416F8-8FD3-435E-943F-CA1E40B56BFC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{4796C221-3AB4-49A3-BF40-53CE72631DDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4796C221-3AB4-49A3-BF40-53CE72631DDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4796C221-3AB4-49A3-BF40-53CE72631DDE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{755416F8-8FD3-435E-943F-CA1E40B56BFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{755416F8-8FD3-435E-943F-CA1E40B56BFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{755416F8-8FD3-435E-943F-CA1E40B56BFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{755416F8-8FD3-435E-943F-CA1E40B56BFC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -69,8 +69,16 @@ namespace Mechatronica.WPF
             AppHost.Start();
           
             var appDbContext = AppHost.Services.GetRequiredService<AppDbContext>();
-            appDbContext.Database.EnsureCreated();
-            appDbContext.Database.Migrate();
+            try
+            {
+                appDbContext.Database.EnsureCreated();
+                appDbContext.Database.Migrate();
+            }
+            catch (Exception ex)
+            {
+                Log.Logger.Warning("Не удалось соединиться с базой данных.");
+            }
+          
             IRepository repository = new Repository(appDbContext);
             ISignalRConnection signalRConnection = new SignalRConnection(_signalRconnectionString);
             var startForm = AppHost.Services.GetRequiredService<MainWindow>();

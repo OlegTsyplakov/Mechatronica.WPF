@@ -7,6 +7,6 @@ namespace Mechatronica.WPF.Interfaces
     {
         string Name {get; set;}
         string Date {get; set;}
-      
+        abstract string ToString();
     }
 }

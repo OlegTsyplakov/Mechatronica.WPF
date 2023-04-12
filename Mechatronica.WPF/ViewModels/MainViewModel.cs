@@ -45,6 +45,8 @@ namespace Mechatronica.WPF.ViewModels
         public ICommand StartCommand { get; set; }
         public ICommand StopCommand { get; set; }
 
+        public ISignalRConnection Connection => _connection;
+
         public event Action? OnStartLoading;
         public event Action? OnStopLoading;
    
@@ -86,7 +88,7 @@ namespace Mechatronica.WPF.ViewModels
                 MainModel mainModel = MapToMainModel(item);
                 var mainDbModel = DbHelper.MapToMainDbModel(mainModel);
               _repository.AddMain(mainDbModel);
-
+                _connection.Send(mainModel.ToString());
             }
             else
             {
@@ -101,16 +103,14 @@ namespace Mechatronica.WPF.ViewModels
     
         void TimerElapsed(object? sender, ElapsedEventArgs args)
         {
-            _syncContext?.Post(async o =>
+            _syncContext?.Post( o =>
             {
-              
-                await _connection.Send("Test");
                 var DbDataExt = _repository.GetAll().AsEnumerable();
                 var difference = DbDataExt.Count() - DbData.Count;
                 if (difference > 0)
                 {
-                    var t = DbDataExt.TakeLast(difference);
-                    foreach (var item in t)
+                    var items = DbDataExt.TakeLast(difference);
+                    foreach (var item in items)
                     {
                         DbData.Add(item);
                     }

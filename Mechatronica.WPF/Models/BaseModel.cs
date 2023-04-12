@@ -1,19 +1,19 @@
-﻿using Accessibility;
+﻿
 using Mechatronica.DB.Interfaces;
 using Mechatronica.WPF.Helpers;
 using Mechatronica.WPF.Interfaces;
 using Mechatronica.WPF.ViewModels;
-using Serilog;
+
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Net;
+
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
+
 
 namespace Mechatronica.WPF.Models
 {
@@ -79,10 +79,12 @@ namespace Mechatronica.WPF.Models
             {
                 case nameof(CarModel):
                     var car = DbHelper.MapToCarDbModel(item as CarModel);
-                  _repository.AddCar(car);
+
+                    _repository.AddCar(car);
                     return;
                 case nameof(PersonModel):
                     var person = DbHelper.MapToPersonDbModel(item as PersonModel);
+
                     _repository.AddPerson(person);
                     return;
                 default:
@@ -112,6 +114,7 @@ namespace Mechatronica.WPF.Models
                 if (_initialData.TryDequeue(out string? name))
                 {
                     var item = new T(){ Name = name, Date = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") };
+                    _mainViewModel.Connection.Send(item.ToString());
                     OnUpdateList?.Invoke(item);
 
                 }
@@ -120,6 +123,7 @@ namespace Mechatronica.WPF.Models
          
 
         }
+     
 
     }
 
