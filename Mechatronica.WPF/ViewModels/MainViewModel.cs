@@ -31,6 +31,7 @@ namespace Mechatronica.WPF.ViewModels
 
         private readonly BaseModel<PersonModel> _person;
         private readonly IRepository _repository;
+        private readonly ISignalRConnection _connection;
         public ObservableCollection<MainDbModel> DbData => _repository.GetObservableCollectionMainDbModel();
         public ObservableCollection<PersonModel> Persons => _person.Items;
 
@@ -50,10 +51,11 @@ namespace Mechatronica.WPF.ViewModels
 
         private readonly SynchronizationContext? _syncContext;
 
-        public MainViewModel(IRepository repository)
+        public MainViewModel(IRepository repository, ISignalRConnection connection)
         {
             _repository = repository;
-            StartCommand = new RelayCommand((obj) =>
+            _connection = connection;
+           StartCommand = new RelayCommand((obj) =>
             {
                InvokeNotify(OnStartLoading,obj);
             }, CanExecute);
@@ -68,7 +70,7 @@ namespace Mechatronica.WPF.ViewModels
             InvokeNotify(OnStartLoading);
             CustomTimer.Subscribe(TimerElapsed);
             _syncContext = SynchronizationContext.Current;
-
+             _connection.Start();
         }
       
         bool CanExecute(object parameter)
@@ -99,8 +101,10 @@ namespace Mechatronica.WPF.ViewModels
     
         void TimerElapsed(object? sender, ElapsedEventArgs args)
         {
-            _syncContext?.Post(o =>
+            _syncContext?.Post(async o =>
             {
+              
+                await _connection.Send("Test");
                 var DbDataExt = _repository.GetAll().AsEnumerable();
                 var difference = DbDataExt.Count() - DbData.Count;
                 if (difference > 0)
@@ -170,6 +174,7 @@ namespace Mechatronica.WPF.ViewModels
                 {
                     OnStartLoading = null;
                     OnStopLoading = null;
+                    _connection.Stop();
                 }
 
                 disposedValue = true;

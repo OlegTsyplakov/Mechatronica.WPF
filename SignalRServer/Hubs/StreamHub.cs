@@ -23,22 +23,23 @@ namespace SignalRServer.Hubs
 
         public async Task SendMessageAsync(string message)
         {
-            var routeOb = JsonConvert.DeserializeObject<dynamic>(message);
-            Console.WriteLine("To: " + routeOb.To.ToString());
-            Console.WriteLine("Message Recieved on: " + Context.ConnectionId);
-            if (routeOb.To.ToString() == string.Empty)
-            {
-                Console.WriteLine("Broadcast");
-                await Clients.All.SendAsync("ReceiveMessage", message);
-            }
-            else
-            {
-                string toClient = routeOb.To;
-                Console.WriteLine("Targeted on: " + toClient);
+            await Clients.All.SendAsync("ReceiveMessage", message);
+            //var routeOb = JsonConvert.DeserializeObject<dynamic>(message);
+            //Console.WriteLine("To: " + routeOb.To.ToString());
+            //Console.WriteLine("Message Recieved on: " + Context.ConnectionId);
+            //if (routeOb.To.ToString() == string.Empty)
+            //{
+            //    Console.WriteLine("Broadcast");
+            //    await Clients.All.SendAsync("ReceiveMessage", message);
+            //}
+            //else
+            //{
+            //    string toClient = routeOb.To;
+            //    Console.WriteLine("Targeted on: " + toClient);
 
-                await Clients.Client(toClient).SendAsync("ReceiveMessage", message);
+            //    await Clients.Client(toClient).SendAsync("ReceiveMessage", message);
 
-            }
+            //}
         }
     }
 }

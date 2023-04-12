@@ -26,6 +26,7 @@ namespace Mechatronica.WPF
     {
    
         public IHost AppHost { get; private set; }
+        private string? _signalRconnectionString;
         public App()
         {
       
@@ -36,7 +37,7 @@ namespace Mechatronica.WPF
 
 
             var loggingSettings = configuration.GetSection("AppSettings:LogFilePath");
-            var signalRconnectionString = configuration.GetSection("AppSettings:SignalRConnectionString");
+            _signalRconnectionString = configuration.GetSection("AppSettings:SignalRConnectionString").Value;
             var connectionStriing = configuration.GetSection("DataBaseSettings:ConnectionString");
 
             Log.Logger = new LoggerConfiguration()
@@ -53,7 +54,7 @@ namespace Mechatronica.WPF
                     services.Configure<DataBaseSettings>(connectionStriing);
                     services.AddSingleton<App>();
                     services.AddSingleton<IRepository, Repository>();
-                    services.AddSingleton<ISignalRConnection>(s=>new SignalRConnection(signalRconnectionString.Value));
+                    services.AddSingleton<ISignalRConnection>(s=>new SignalRConnection(_signalRconnectionString));
                     services.AddSingleton<MainWindow>();
           
                     services.AddDbContext<AppDbContext>(options =>
@@ -71,9 +72,10 @@ namespace Mechatronica.WPF
             appDbContext.Database.EnsureCreated();
             appDbContext.Database.Migrate();
             IRepository repository = new Repository(appDbContext);
+            ISignalRConnection signalRConnection = new SignalRConnection(_signalRconnectionString);
             var startForm = AppHost.Services.GetRequiredService<MainWindow>();
         
-            startForm.DataContext = new MainViewModel(repository);
+            startForm.DataContext = new MainViewModel(repository, signalRConnection);
      
 
             startForm.Show();

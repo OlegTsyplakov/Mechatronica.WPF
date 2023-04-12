@@ -24,32 +24,32 @@ namespace Mechatronica.WPF.SignalR
         }
 
 
-        //private void OnReceiveMessage(string message)
-        //{
-        //   Console.WriteLine("ReceivedMessage: {0}", message);
-        //}
+        private void OnReceiveMessage(string message)
+        {
+            Console.WriteLine("ReceivedMessage: {0}", message);
+        }
 
-        // public ISignalRConnectionAction MyStart()
-        //{
-        //    //await _connection.StartAsync();
-        //    return this;
-        //}
+        public async Task Start()
+        {
+          await _connection.StartAsync();
+         
+        }
 
-        //public async void MySend()
-        //{
-        //    await _connection.InvokeAsync("SendMessage", "ConsoleApp", "Message from the console app");
+        public async Task Send(string message)
+        {
+            await _connection.InvokeAsync("SendMessageAsync", message);
 
-        //}
+        }
 
-        //public void MyReceive(string message)
-        //{
-        //    _connection.On<string>("ReceiveMessage", (message) => OnReceiveMessage(message));
-        //}
+        public void Receive()
+        {
+            _connection.On<string>("ReceiveMessage", (message) => OnReceiveMessage(message));
+        }
 
-        //public async void MyStop()
-        //{
-        //    await _connection.StopAsync();
-        //}
+        public async Task Stop()
+        {
+            await _connection.StopAsync();
+        }
 
 
 
