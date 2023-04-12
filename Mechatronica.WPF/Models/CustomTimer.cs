@@ -23,7 +23,7 @@ namespace Mechatronica.WPF.Models
         }
         public static void Subscribe(ElapsedEventHandler Elapsed)
         {
-            _timer.Elapsed += Elapsed;
+            _timer.Elapsed += Elapsed; 
         }
         public static void UnSubscribe(ElapsedEventHandler Elapsed)
         {

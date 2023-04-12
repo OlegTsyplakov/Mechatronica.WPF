@@ -5,7 +5,9 @@ VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mechatronica.WPF", "Mechatronica.WPF\Mechatronica.WPF.csproj", "{F69894DC-8AB5-467A-B9CB-6347D52D2373}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mechatronica.DB", "Mechatronica.DB\Mechatronica.DB.csproj", "{06D4E9BA-6C99-48D4-9EAF-46E4E414BC0D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mechatronica.DB", "Mechatronica.DB\Mechatronica.DB.csproj", "{06D4E9BA-6C99-48D4-9EAF-46E4E414BC0D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Console", "Console\Console.csproj", "{88C9C31D-0602-4CE4-8F38-0FE9AB1FDF59}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{06D4E9BA-6C99-48D4-9EAF-46E4E414BC0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{06D4E9BA-6C99-48D4-9EAF-46E4E414BC0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{06D4E9BA-6C99-48D4-9EAF-46E4E414BC0D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{88C9C31D-0602-4CE4-8F38-0FE9AB1FDF59}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{88C9C31D-0602-4CE4-8F38-0FE9AB1FDF59}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{88C9C31D-0602-4CE4-8F38-0FE9AB1FDF59}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{88C9C31D-0602-4CE4-8F38-0FE9AB1FDF59}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

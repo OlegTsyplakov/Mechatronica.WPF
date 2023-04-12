@@ -8,55 +8,7 @@
 
         mc:Ignorable="d"
         Title="Main" Height="450" Width="800">
-    <!--<Grid>
-        <Grid.Resources>
-            <DataTemplate DataType="{x:Type vms:HomeViewModel}">
-                <views:HomeView />
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type vms:DBViewModel}">
-                <views:DBView />
-            </DataTemplate>
-      
-        </Grid.Resources>
 
-        <ContentControl Content="{Binding CurrentViewModel}" />
-     
-    </Grid>-->
-
-  
-
-        <!--<StackPanel >
-        <ContentControl Content="{Binding SelectedViewModel}"/>
-        <ListView Margin="10" ItemsSource="{Binding Cars}"  ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.CanContentScroll="True" DockPanel.Dock="Top"  MaxHeight="300px">
-
-                <ListView.View>
-                    <GridView>
-                        <GridViewColumn  Header="Name" Width="250px" DisplayMemberBinding="{Binding Name}" />
-                        <GridViewColumn Header="Date" Width="Auto" DisplayMemberBinding="{Binding Date}" />
-
-                    </GridView>
-                </ListView.View>
-
-            </ListView>
-
-
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-            <Button Command="{Binding StopMainCommand}" Grid.Column="0" Grid.Row="0" Content="Stop main" Margin="3" Padding="5"  />
-    <Button Command="{Binding StopAdditionalCommand}" Grid.Column="1" Grid.Row="0" Content="Stop Add" Margin="3" Padding="5" />
-    <Button Command="{Binding OpenDBWindowCommand}" Grid.Column="2" Grid.Row="0" Content="Open DB" Margin="3" Padding="5"  />
-    <Button Command="{Binding UpdateViewCommand}" CommandParameter="DB" Grid.Column="3" Grid.Row="0" Content="Switch DB" Margin="3" Padding="5"/>
-    </Grid>
-    </StackPanel>-->
 
 
 
@@ -151,7 +103,7 @@
             </TabItem>
             <TabItem Header="Db">
                 <TabControl>
-                    <ListView Margin="10" ItemsSource="{Binding DbData}"  ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.CanContentScroll="True">
+                    <ListView Margin="10" ItemsSource="{Binding DbData}"  ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.CanContentScroll="True" Name="lvDb">
 
                         <ListView.View>
                             <GridView>
