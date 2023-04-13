@@ -9,16 +9,16 @@ namespace Mechatronica.WPF.SignalR
 {
     public class SignalRConnection : ISignalRConnection
     {
-        private readonly string? _url;
+   
         readonly HubConnection _connection;
 
 
 
-        public SignalRConnection(string? url)
+        public SignalRConnection(string url)
         {
-            _url = url;
+       
             _connection = new HubConnectionBuilder()
-               .WithUrl(_url)
+               .WithUrl(url)
                .WithAutomaticReconnect()
                .Build();
         }

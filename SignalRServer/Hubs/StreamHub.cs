@@ -14,7 +14,7 @@ namespace SignalRServer.Hubs
         }
 
 
-        public override Task OnDisconnectedAsync(Exception exception)
+        public override Task OnDisconnectedAsync(Exception? exception)
         {
             Console.WriteLine("--> Connection Closed: " + Context.ConnectionId);
             return base.OnDisconnectedAsync(exception);

@@ -85,14 +85,14 @@ namespace Mechatronica.WPF.ViewModels
             if (_matchDictionary.TryAdd(item.Key,item.Value))
             {
                 _matchDictionary.AddOrUpdate(item.Key, item.Value, (key, oldValue) => item.Value);
-                MainModel mainModel = MapToMainModel(item);
+                MainModel mainModel = DbHelper.MapToMainModel(item);
                 var mainDbModel = DbHelper.MapToMainDbModel(mainModel);
               _repository.AddMain(mainDbModel);
                 _connection.Send(mainModel.ToString());
             }
             else
             {
-                MainModel mainModel = MapToMainModel(item, _matchDictionary[item.Key].Name);
+                MainModel mainModel = DbHelper.MapToMainModel(item, _matchDictionary[item.Key].Name);
 
                 _mainModels.Add(mainModel);
                 var mainDbModel = DbHelper.MapToMainDbModel(mainModel);
@@ -118,27 +118,7 @@ namespace Mechatronica.WPF.ViewModels
  
             }, null);
         }
-        MainModel MapToMainModel(KeyValuePair<string, IModel> item, string previousName = "")
-        {
-            MainModel mainModel = new MainModel()
-            {
-                Date = item.Key,
-            };
-            if (item.Value.GetType().Name != nameof(CarModel))
-            {
-                mainModel.Person = item.Value.Name;
-                mainModel.Car = previousName;
-            }
-            else
-            {
-                mainModel.Car = item.Value.Name;
-                mainModel.Person = previousName;
-            }
-            return mainModel;
-        }
-
-    
-
+  
         static void InvokeNotify(Action? action, object? obj = null)
         {
             if (obj == null)

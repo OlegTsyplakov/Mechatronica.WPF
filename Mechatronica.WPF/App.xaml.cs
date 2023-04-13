@@ -66,19 +66,13 @@ namespace Mechatronica.WPF
         }
         protected override void OnStartup(StartupEventArgs e)
         {
-            AppHost.Start();
-          
+
+            AppHost.RunAsync();
             var appDbContext = AppHost.Services.GetRequiredService<AppDbContext>();
-            try
-            {
-                appDbContext.Database.EnsureCreated();
-                appDbContext.Database.Migrate();
-            }
-            catch (Exception ex)
-            {
-                Log.Logger.Warning("Не удалось соединиться с базой данных.");
-            }
-          
+
+            CheckDataBaseConnection(appDbContext);
+            appDbContext.Database.EnsureCreated();
+            appDbContext.Database.Migrate();
             IRepository repository = new Repository(appDbContext);
             ISignalRConnection signalRConnection = new SignalRConnection(_signalRconnectionString);
             var startForm = AppHost.Services.GetRequiredService<MainWindow>();
@@ -94,6 +88,16 @@ namespace Mechatronica.WPF
         {
             Log.Logger.Information("Программа закрыта");
             base.OnExit(e);
+        }
+
+        void CheckDataBaseConnection(AppDbContext appDbContext)
+        {
+            if (!appDbContext.Database.CanConnect())
+            {
+                    Log.Logger.Warning("Не удалось соединиться с базой данных.");
+                    AppHost.StopAsync();
+                    Environment.Exit(0);
+            }
         }
     
     }

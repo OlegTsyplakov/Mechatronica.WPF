@@ -7,8 +7,8 @@ namespace Mechatronica.WPF.Models
 {
     public class CarModel : IModel
     {
-        public string Name { get; set; } = String.Empty;
-        public string Date { get; set; } = String.Empty;
+        public string? Name { get; set; }
+        public string? Date { get; set; }
 
         public override string ToString()
         {

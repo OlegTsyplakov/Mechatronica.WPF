@@ -8,9 +8,9 @@ namespace Mechatronica.WPF.Models
 {
     public class MainModel
     {
-        public string Person { get; set; } = String.Empty;
-        public string Car { get; set; } = String.Empty;
-        public string Date { get; set; } = String.Empty;
+        public string? Person { get; set; }
+        public string? Car { get; set; }
+        public string? Date { get; set; }
 
         public override string ToString()
         {
