@@ -1,7 +1,5 @@
 
 
-using Mechatronica.WPF.Models;
-
 namespace Mechatronica.Tests
 {
     public class MapToCarDbModel_Is
@@ -9,8 +7,13 @@ namespace Mechatronica.Tests
         [Fact]
         public void Is_MapToCarDbModel_ReturnTrue()
         {
-            var carModel = new CarModel();
+            // arrange 
+     
+            // act
+   
+            // assert
             Assert.True(true,"Должно быть true");
+    
         }
     }
 }
