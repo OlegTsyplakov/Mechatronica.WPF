@@ -40,7 +40,7 @@ namespace Mechatronica.WPF.Helpers
             return mainDbModel;
         }
 
-        public static MainModel MapToMainModel(KeyValuePair<string, IModel> item, string previousName = "")
+        public static MainModel MapToMainModel(KeyValuePair<string, IModel> item, string? previousName)
         {
             MainModel mainModel = new()
             {

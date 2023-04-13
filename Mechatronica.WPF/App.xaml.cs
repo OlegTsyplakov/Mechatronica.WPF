@@ -68,6 +68,7 @@ namespace Mechatronica.WPF
         {
 
             AppHost.RunAsync();
+            Log.Logger.Information("Программа открыта");
             var appDbContext = AppHost.Services.GetRequiredService<AppDbContext>();
 
             CheckDataBaseConnection(appDbContext);
@@ -81,7 +82,7 @@ namespace Mechatronica.WPF
      
 
             startForm.Show();
-            Log.Logger.Information("Программа открыта");
+         
             base.OnStartup(e);
         }
         protected override void OnExit(ExitEventArgs e)
@@ -94,8 +95,9 @@ namespace Mechatronica.WPF
         {
             if (!appDbContext.Database.CanConnect())
             {
-                    Log.Logger.Warning("Не удалось соединиться с базой данных.");
-                    AppHost.StopAsync();
+                Log.Logger.Warning("Не удалось соединиться с базой данных.");
+                Log.Logger.Information("Программа принудительно закрыта");
+                AppHost.StopAsync();
                     Environment.Exit(0);
             }
         }

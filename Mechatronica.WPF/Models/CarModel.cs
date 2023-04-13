@@ -1,7 +1,6 @@
 ﻿using Mechatronica.WPF.Interfaces;
 using System;
-using System.Runtime.ConstrainedExecution;
-using System.Timers;
+
 
 namespace Mechatronica.WPF.Models
 {
