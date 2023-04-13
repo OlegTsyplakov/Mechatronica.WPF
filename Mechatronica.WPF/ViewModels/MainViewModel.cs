@@ -123,6 +123,7 @@ namespace Mechatronica.WPF.ViewModels
         {
             if (obj == null)
             {
+                Log.Logger.Information("Запущен общий поток выполнения.");
                 action?.Invoke();
             }
             else
@@ -138,6 +139,7 @@ namespace Mechatronica.WPF.ViewModels
 
                         if (target != null && target.Name == obj.ToString())
                         {
+                            Log.Logger.Information(String.Format("Вызвано действие {0} на {1}.",d.Method.Name,target.Name));
                             d.DynamicInvoke();
                         }
 

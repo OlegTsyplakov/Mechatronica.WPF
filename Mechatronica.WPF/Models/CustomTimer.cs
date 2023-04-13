@@ -7,7 +7,7 @@ namespace Mechatronica.WPF.Models
 {
     public class CustomTimer : IDisposable
     {
-       private static Timer _timer;
+       private static readonly Timer _timer;
         private bool disposedValue;
 
         static CustomTimer()
