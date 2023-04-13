@@ -1,5 +1,6 @@
 ﻿using Mechatronica.WPF.Interfaces;
 using Microsoft.AspNetCore.SignalR.Client;
+using Serilog;
 using System;
 
 using System.Threading.Tasks;
@@ -31,24 +32,56 @@ namespace Mechatronica.WPF.SignalR
 
         public async Task Start()
         {
-          await _connection.StartAsync();
+            try
+            {
+                await _connection.StartAsync();
+            }
+            catch (Exception ex)
+            {
+                Log.Logger.Warning($"не удалось подключиться к серверу SignalR. {ex.Message}");
+            }
+
          
         }
 
         public async Task Send(string message)
         {
-            await _connection.InvokeAsync("SendMessageAsync", message);
+            try
+            {
+                await _connection.InvokeAsync("SendMessageAsync", message);
+            }
+            catch (Exception ex)
+            {
+                Log.Logger.Warning($"не удалось отправить сообщение на сервер SignalR. {ex.Message}");
+            }
+         
 
         }
 
         public void Receive()
         {
-            _connection.On<string>("ReceiveMessage", (message) => OnReceiveMessage(message));
+            try
+            {
+                _connection.On<string>("ReceiveMessage", (message) => OnReceiveMessage(message));
+            }
+            catch (Exception ex)
+            {
+                Log.Logger.Warning($"не удалось получить сообщение с сервера SignalR. {ex.Message}");
+            }
+ 
         }
 
         public async Task Stop()
         {
-            await _connection.StopAsync();
+            try
+            {
+                await _connection.StopAsync();
+            }
+            catch (Exception ex)
+            {
+                Log.Logger.Warning($"не удалось оставноить сервер SignalR. {ex.Message}");
+            }
+     
         }
 
 
