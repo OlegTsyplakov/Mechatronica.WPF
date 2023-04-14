@@ -1,7 +1,6 @@
 ﻿using Mechatronica.WPF.Interfaces;
-using Mechatronica.WPF.SignalR;
 using Xunit.Abstractions;
-using Xunit.Sdk;
+
 
 namespace Mechatronica.Tests
 {
@@ -9,7 +8,6 @@ namespace Mechatronica.Tests
     {
         private readonly ISignalRConnection _connection;
         private readonly ITestOutputHelper _testOutputHelper;
-
         public SignalRConnection_Is(ISignalRConnection connection, ITestOutputHelper testOutputHelper)
         {
         
@@ -37,13 +35,15 @@ namespace Mechatronica.Tests
         [InlineData("Привет")]
         public async Task SignalRConnection_Is_SendAsync(string messageToSend)
         {
+
             // arrange 
 
             // act
-            var exception = await Record.ExceptionAsync(() => _connection.Send(messageToSend));
+            var exception = await Record.ExceptionAsync(async () => await _connection.Send(messageToSend));
+
             bool condition = exception is null;
             string param = condition ? "" : "не";
-            _testOutputHelper.WriteLine(String.Format("Сообщение {0} отправлено.", param));
+            _testOutputHelper.WriteLine(String.Format("Соединение {0} установлено.", param));
             // assert
             Assert.True(condition);
 

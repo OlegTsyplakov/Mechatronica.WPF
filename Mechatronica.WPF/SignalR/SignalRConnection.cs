@@ -46,6 +46,7 @@ namespace Mechatronica.WPF.SignalR
 
         public async Task Send(string message)
         {
+      
             try
             {
                 await _connection.InvokeAsync("SendMessageAsync", message);
@@ -54,7 +55,7 @@ namespace Mechatronica.WPF.SignalR
             {
                 Log.Logger.Warning($"не удалось отправить сообщение на сервер SignalR. {ex.Message}");
             }
-         
+
 
         }
 

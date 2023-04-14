@@ -15,15 +15,15 @@ using Mechatronica.WPF.ViewModels;
 using Mechatronica.DB.Interfaces;
 using Mechatronica.DB.Repository;
 using Mechatronica.WPF.SignalR;
-
+using Mechatronica.WPF.Helpers;
 
 namespace Mechatronica.WPF
 {
 
     public partial class App : Application
     {
-   
-        public IHost AppHost { get; private set; }
+
+        private IHost AppHost { get; set; }
         private string? _signalRconnectionString;
         public App()
         {
@@ -69,7 +69,7 @@ namespace Mechatronica.WPF
             Log.Logger.Information("Программа открыта");
             var appDbContext = AppHost.Services.GetRequiredService<AppDbContext>();
 
-            CheckDataBaseConnectionAsync(appDbContext);
+            DbHelper.CheckDataBaseConnectionAsync(AppHost, appDbContext);
             appDbContext.Database.EnsureCreated();
             appDbContext.Database.Migrate();
             IRepository repository = new Repository(appDbContext);
@@ -89,16 +89,6 @@ namespace Mechatronica.WPF
             base.OnExit(e);
         }
 
-        void CheckDataBaseConnectionAsync(AppDbContext appDbContext)
-        {
-            if (!appDbContext.Database.CanConnect())
-            {
-                Log.Logger.Warning("Не удалось соединиться с базой данных.");
-                Log.Logger.Information("Программа принудительно закрыта");
-                AppHost.StopAsync();
-                Environment.Exit(0);
-            }
-        }
     
     }
 }
