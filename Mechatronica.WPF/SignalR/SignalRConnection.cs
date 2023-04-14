@@ -84,7 +84,10 @@ namespace Mechatronica.WPF.SignalR
      
         }
 
-
+        public string Dummy(string dummy)
+        {
+            return dummy;
+        }
 
     }
 }
