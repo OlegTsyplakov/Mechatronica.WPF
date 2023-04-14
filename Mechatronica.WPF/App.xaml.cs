@@ -2,11 +2,8 @@
 using Microsoft.Extensions.Hosting;
 using Serilog.Events;
 using Serilog;
-
 using System.IO;
-
 using System.Windows;
-
 using Microsoft.Extensions.DependencyInjection;
 using Mechatronica.WPF.Settings;
 using Mechatronica.DB;
@@ -18,7 +15,7 @@ using Mechatronica.WPF.ViewModels;
 using Mechatronica.DB.Interfaces;
 using Mechatronica.DB.Repository;
 using Mechatronica.WPF.SignalR;
-using System.Threading.Tasks;
+
 
 namespace Mechatronica.WPF
 {

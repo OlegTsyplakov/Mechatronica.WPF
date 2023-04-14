@@ -3,13 +3,10 @@ using Mechatronica.DB.Interfaces;
 using Mechatronica.WPF.Helpers;
 using Mechatronica.WPF.Interfaces;
 using Mechatronica.WPF.ViewModels;
-
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
@@ -52,13 +49,13 @@ namespace Mechatronica.WPF.Models
             _syncContext?.Post( o =>
             {
                 MapToModel(item);
-               _mainViewModel.AddToMatchDictionary(GetKeyValuePair(item));
+               _mainViewModel.AddToMatchDictionary(BaseModel<T>.GetKeyValuePair(item));
                 _observableCollection.Add(item);
               
             }, null);
         }
 
-        KeyValuePair<string, IModel> GetKeyValuePair(T item)
+        static KeyValuePair<string, IModel> GetKeyValuePair(T item)
         {
             return new KeyValuePair<string, IModel>(item.Date,item);
         }
