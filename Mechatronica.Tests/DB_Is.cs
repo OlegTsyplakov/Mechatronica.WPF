@@ -1,13 +1,7 @@
 ﻿using Mechatronica.DB;
 using Mechatronica.DB.Interfaces;
-using Mechatronica.WPF.Helpers;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit.Abstractions;
 
 namespace Mechatronica.Tests

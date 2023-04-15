@@ -1,6 +1,4 @@
-﻿
-using Mechatronica.DB.Interfaces;
-using Mechatronica.WPF.Helpers;
+﻿using Mechatronica.WPF.Helpers;
 using Mechatronica.WPF.Interfaces;
 using Mechatronica.WPF.ViewModels;
 using System;
