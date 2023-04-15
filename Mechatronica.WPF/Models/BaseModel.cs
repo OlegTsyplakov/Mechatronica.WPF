@@ -24,23 +24,21 @@ namespace Mechatronica.WPF.Models
         private readonly ConcurrentQueue<string> _initialData;
         private readonly int _interval;
         private readonly MainViewModel _mainViewModel;
-        private readonly IRepository _repository;
-
-        private BaseModel(ConcurrentQueue<string> mockData, int interval, MainViewModel mainViewModel, IRepository repository)
+        public ObservableCollection<T> Items => _observableCollection;
+        private BaseModel(ConcurrentQueue<string> mockData, int interval, MainViewModel mainViewModel)
         {
             _initialData = mockData;
             _interval = interval;
             _syncContext = SynchronizationContext.Current;
            _mainViewModel = mainViewModel;
-            _repository = repository;
             OnUpdateList += AddItem;
             _mainViewModel.OnStartLoading += StartLoading;
             _mainViewModel.OnStopLoading += StopLoading;
 
         }
-       public static BaseModel<T> Create(ConcurrentQueue<string> mockData, int interval, MainViewModel mainViewModel, IRepository repository)
+       public static BaseModel<T> Create(ConcurrentQueue<string> mockData, int interval, MainViewModel mainViewModel)
         {
-            return new BaseModel<T>(mockData, interval, mainViewModel, repository);    
+            return new BaseModel<T>(mockData, interval, mainViewModel);    
         }
 
         void AddItem(T item)
@@ -76,13 +74,11 @@ namespace Mechatronica.WPF.Models
             {
                 case nameof(CarModel):
                     var car = DbHelper.MapToCarDbModel(item as CarModel);
-
-                    _repository.AddCar(car);
+                    _mainViewModel.Repository.AddCar(car);
                     return;
                 case nameof(PersonModel):
                     var person = DbHelper.MapToPersonDbModel(item as PersonModel);
-
-                    _repository.AddPerson(person);
+                    _mainViewModel.Repository.AddPerson(person);
                     return;
                 default:
                     break;
@@ -98,12 +94,6 @@ namespace Mechatronica.WPF.Models
             CustomTimer.UnSubscribe(TimerElapsed);
         }
 
-        public ObservableCollection<T> Items
-        {
-            get { return _observableCollection; }
-
-        }
-
         async Task Tik()
         {
             _count = 0;
@@ -117,8 +107,6 @@ namespace Mechatronica.WPF.Models
                 }
 
             });
-         
-
         }
      
 

@@ -42,6 +42,7 @@ namespace Mechatronica.WPF.ViewModels
         public ICommand StopCommand { get; set; }
 
         public ISignalRConnection Connection => _connection;
+        public IRepository Repository => _repository;
 
         public event Action? OnStartLoading;
         public event Action? OnStopLoading;
@@ -61,8 +62,8 @@ namespace Mechatronica.WPF.ViewModels
             {
                InvokeNotify(OnStopLoading, obj);
             }, CanExecute);
-            _car = BaseModel<CarModel>.Create(MockData.Cars, 2, this, _repository);
-            _person = BaseModel<PersonModel>.Create(MockData.Persons, 3, this, _repository);
+            _car = BaseModel<CarModel>.Create(MockData.Cars, 2, this);
+            _person = BaseModel<PersonModel>.Create(MockData.Persons, 3, this);
        
             CustomTimer.Start();
             InvokeNotify(OnStartLoading);
