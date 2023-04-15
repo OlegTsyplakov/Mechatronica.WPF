@@ -9,7 +9,10 @@ namespace Console
         {
             System.Console.WriteLine("Слушаем ...");
             var signalRConnection = new SignalRConnection();
-            signalRConnection.Start();
+        
+                signalRConnection.Start();
+          
+          
 
             System.Console.Read();
         }

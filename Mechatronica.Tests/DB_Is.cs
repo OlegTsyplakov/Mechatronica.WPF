@@ -31,9 +31,8 @@ namespace Mechatronica.Tests
         public void DB_Is_Connected()
         {
             // arrange 
-  
-            // act
 
+            // act
            bool condition = _appDbContext.Database.CanConnect();
             string param = condition ? "" : "не";
             _testOutputHelper.WriteLine(String.Format("Соединение {0} установлено.", param));
