@@ -33,7 +33,7 @@ namespace Console
             catch (Exception ex)
             {
                 OnConnectionException();
-                Debug.WriteLine(ex.Message);    
+                System.Console.WriteLine(ex.Message);    
             }
 
 
