@@ -7,7 +7,7 @@ namespace Console
     {
         static void Main(string[] args)
         {
-            System.Console.WriteLine("Слушаем ...");
+            System.Console.WriteLine("Подключаемся ...");
             var signalRConnection = new SignalRConnection();
         
                 signalRConnection.Start();
