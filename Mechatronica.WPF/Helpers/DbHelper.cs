@@ -2,6 +2,7 @@
 using Mechatronica.DB.Models;
 using Mechatronica.WPF.Interfaces;
 using Mechatronica.WPF.Models;
+using Mechatronica.WPF.ViewModels;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using System;
@@ -24,6 +25,7 @@ namespace Mechatronica.WPF.Helpers
         }
         public static CarDbModel MapToCarDbModel(CarModel carModel)
         {
+          
             CarDbModel carDbModel = new()
             {
                 CarName = carModel.Name,
@@ -72,6 +74,7 @@ namespace Mechatronica.WPF.Helpers
             }
             return mainModel;
         }
+
 
     }
 }

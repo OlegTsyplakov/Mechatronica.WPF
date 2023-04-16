@@ -84,7 +84,7 @@ namespace Mechatronica.WPF.ViewModels
                 _matchDictionary.AddOrUpdate(item.Key, item.Value, (key, oldValue) => item.Value);
                 MainModel mainModel = DbHelper.MapToMainModel(item,null);
                 var mainDbModel = DbHelper.MapToMainDbModel(mainModel);
-              _repository.AddMain(mainDbModel);
+                _repository.AddMain(mainDbModel);
                 _connection.Send(mainModel.ToString());
             }
             else
