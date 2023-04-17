@@ -15,13 +15,13 @@ namespace Mechatronica.DB.Repository
 
         public async Task AddCarAsync(CarDbModel car)
         {
-                _appDbContext.Cars.Add(car);
+            await _appDbContext.Cars.AddAsync(car);
             await _appDbContext.SaveChangesAsync();
         }
 
         public async Task AddPersonAsync(PersonDbModel person)
         {
-                _appDbContext.Persons.Add(person);
+            await _appDbContext.Persons.AddAsync(person);
             await _appDbContext.SaveChangesAsync();
         }
 
@@ -37,7 +37,7 @@ namespace Mechatronica.DB.Repository
 
         public async Task AddMainAsync(MainDbModel main)
         {
-                _appDbContext.Main.Add(main);
+            await _appDbContext.Main.AddAsync(main);
             await _appDbContext.SaveChangesAsync();
         }
 

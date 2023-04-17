@@ -93,7 +93,7 @@ namespace Mechatronica.WPF.ViewModels
 
                 _mainModels.Add(mainModel);
                 var mainDbModel = DbHelper.MapToMainDbModel(mainModel);
-                 _repository.UpdateMain(mainDbModel);
+                _repository.UpdateMain(mainDbModel);
                 _matchDictionary.Clear();
             }
         }

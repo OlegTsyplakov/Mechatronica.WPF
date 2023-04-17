@@ -21,6 +21,11 @@ namespace Mechatronica.WPF.Models
         {
             _timer.Start();
         }
+        public static void Stop()
+        {
+            _timer.Stop();
+        }
+
         public static void Subscribe(ElapsedEventHandler Elapsed)
         {
             _timer.Elapsed += Elapsed; 
@@ -31,11 +36,9 @@ namespace Mechatronica.WPF.Models
         }
         public static async Task Tik(Action action)
         {
-            await Task.Run(() => {
-                action.Invoke();
-            });
-
-
+                await Task.Run(() => {
+                    action.Invoke();
+                });
         }
         protected virtual void Dispose(bool disposing)
         {
