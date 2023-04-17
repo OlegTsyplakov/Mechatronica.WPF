@@ -5,12 +5,12 @@ using System.Timers;
 
 namespace Mechatronica.WPF.Models
 {
-    public class CustomTimer : IDisposable
+    public static class CustomTimer 
     {
        private static readonly Timer _timer;
         private static int _ticks;
         public static int Ticks => _ticks;
-        private bool disposedValue;
+
         private static readonly ElapsedEventHandler OnTick;
         static CustomTimer()
         {
@@ -45,23 +45,6 @@ namespace Mechatronica.WPF.Models
                     action.Invoke();
                 });
         }
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!disposedValue)
-            {
-                if (disposing)
-                {
-                    _timer.Dispose();
-                }
 
-                disposedValue = true;
-            }
-        }
-
-         public void Dispose()
-        {
-            Dispose(disposing: true);
-            GC.SuppressFinalize(this);
-        }
     }
 }

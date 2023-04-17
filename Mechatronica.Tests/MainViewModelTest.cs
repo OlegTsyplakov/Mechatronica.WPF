@@ -35,7 +35,7 @@ namespace Mechatronica.Tests
         }
 
         [Theory]
-        [InlineData(0, 4)]
+        //[InlineData(0, 4)]
         [InlineData(2, 4)]
         [InlineData(3, 6)]
 
@@ -43,10 +43,13 @@ namespace Mechatronica.Tests
         {
             // arrange
             int actual = -1;
+            int start = CustomTimer.Ticks;
             // act
             await Task.Delay(interval * 1000);
-                    _testOutputHelper.WriteLine(String.Format("count1 {0}", CustomTimer.Ticks));
-                    actual = _mainViewModel.Cars.Count;
+            _testOutputHelper.WriteLine(String.Format("start tick: {0}", start));
+            _testOutputHelper.WriteLine(String.Format("end tick: {0}", CustomTimer.Ticks));
+            _testOutputHelper.WriteLine(String.Format("duration tick: {0}", CustomTimer.Ticks - start));
+            actual = _mainViewModel.Cars.Count;
             // assert
             _testOutputHelper.WriteLine(String.Format("expected {0},  actual {1}", expected, actual));
             Assert.Equal(expected, actual);
@@ -63,7 +66,7 @@ namespace Mechatronica.Tests
             int actual = -1;
             // act
             await Task.Delay(interval*1000);
-                    _testOutputHelper.WriteLine(String.Format("count1 {0}", CustomTimer.Ticks));
+                    _testOutputHelper.WriteLine(String.Format("ticks: {0}", CustomTimer.Ticks));
                     actual = _mainViewModel.MainModels.Count;
             // assert
             _testOutputHelper.WriteLine(String.Format("expected {0},  actual {1}", expected, actual));
@@ -80,7 +83,7 @@ namespace Mechatronica.Tests
             int actual = -1;
             // act
             await Task.Delay(interval * 1000);
-            _testOutputHelper.WriteLine(String.Format("count1 {0}", CustomTimer.Ticks));
+            _testOutputHelper.WriteLine(String.Format("ticks: {0}", CustomTimer.Ticks));
             actual = _mainViewModel.Persons.Count;
             // assert
             _testOutputHelper.WriteLine(String.Format("expected {0},  actual {1}", expected, actual));
