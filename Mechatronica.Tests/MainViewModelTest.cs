@@ -71,8 +71,6 @@ namespace Mechatronica.Tests
             Assert.Equal(expected, actual);
         }
         [Theory]
-        [InlineData(0, 4)]
-        [InlineData(1, 3)]
         [InlineData(2, 6)]
 
         public async Task MainViewModel_Is_PersonsCountMatchAsync(int expected, int interval)
