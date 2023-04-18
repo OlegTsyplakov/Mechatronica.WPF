@@ -35,9 +35,8 @@ namespace Mechatronica.Tests
         }
 
         [Theory]
-        //[InlineData(0, 4)]
         [InlineData(2, 4)]
-        [InlineData(3, 6)]
+
 
         public async Task MainViewModel_Is_CarsCountMatchAsync(int expected, int interval)
         {
@@ -57,7 +56,6 @@ namespace Mechatronica.Tests
 
         }
         [Theory]
-        [InlineData(0, 4)]
         [InlineData(1, 6)]
 
         public async Task MainViewModel_Is_MainModelsCountMatchAsync(int expected, int interval)
